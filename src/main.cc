@@ -1,8 +1,7 @@
-// Copyright Spring 2026 CSCE 311
 #include "../include/main.h"
 
 
-// Helper: get current file size using proj3::fstat
+// Get current file size using proj3::fstat
 static off_t file_size(int fd) {
   struct stat st;
   proj3::fstat(fd, &st);

@@ -1,4 +1,3 @@
-// Copyright Spring 2026 CSCE 311
 #ifndef PROJ3_INCLUDE_MAIN_H_
 #define PROJ3_INCLUDE_MAIN_H_
 
@@ -22,4 +21,4 @@ static int do_insert(const char* path, off_t offset, off_t bytes_incoming);
 static int do_append(const char* path, off_t bytes_incoming);
 
 
-#endif  // PROJ3_INCLUDE_MAIN_H_
+#endif
