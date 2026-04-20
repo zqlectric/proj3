@@ -7,7 +7,7 @@ This program is a command-line tool called `mmap_util`.
 It works with files using memory mapping.
 All file operations use the provided `proj3::` functions.
 
-It supports three commands:
+It has three commands:
 
 * create
 * insert
@@ -18,12 +18,6 @@ It supports three commands:
 ## Build
 
 Compile with:
-
-```bash
-g++ -std=c++17 main.cc -o mmap_util
-```
-
-Or run:
 
 ```bash
 make
