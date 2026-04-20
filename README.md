@@ -1,4 +1,4 @@
-# Project 3
+# Project 3: Memory-Mapped File Manipulation
 
 ## Overview
 
