@@ -5,6 +5,7 @@
 #include "../lib/include/mmap.h"
 
 #include <sys/stat.h>
+#include <unistd.h>
 
 #include <cerrno>
 #include <cstdint>

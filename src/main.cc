@@ -173,6 +173,7 @@ static int do_append(const char* path, off_t bytes_incoming) {
 
   while (remaining > 0) {
     off_t current_size = orig_size + total_appended;
+
     off_t chunk_size;
     if (current_size == 0) {
       chunk_size = 1;
@@ -205,17 +206,23 @@ static int do_append(const char* path, off_t bytes_incoming) {
       off_t new_size = current_size + chunk_size;
       proj3::ftruncate(fd, new_size);
 
+      const off_t page_size = static_cast<off_t>(::getpagesize());
+      off_t map_offset      = (current_size / page_size) * page_size;
+      off_t delta           = current_size - map_offset;
+      off_t map_length      = delta + chunk_size;
+
       void* addr = proj3::mmap(nullptr,
-                               static_cast<std::size_t>(new_size),
+                               static_cast<std::size_t>(map_length),
                                proj3::PROT_READ | proj3::PROT_WRITE,
                                proj3::MAP_SHARED,
-                               fd, 0);
+                               fd,
+                               map_offset);
 
-      uint8_t* dest = static_cast<uint8_t*>(addr) + current_size;
+      uint8_t* dest = static_cast<uint8_t*>(addr) + delta;
       std::memcpy(dest, buf.data(), static_cast<std::size_t>(chunk_size));
 
-      proj3::msync(addr, static_cast<std::size_t>(new_size), proj3::MS_SYNC);
-      proj3::munmap(addr, static_cast<std::size_t>(new_size));
+      proj3::msync(addr, static_cast<std::size_t>(map_length), proj3::MS_SYNC);
+      proj3::munmap(addr, static_cast<std::size_t>(map_length));
     } catch (...) {
       return restore();
     }
